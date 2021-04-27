@@ -2,46 +2,45 @@ package sistema.api.rest.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import sistema.api.rest.model.Usuario;
+import sistema.api.rest.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping(value = "/usuario")
 public class IndexController {
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	/* SERVIÇO RESTFULL */
-	@GetMapping(value = "/", produces = "application/json")
-	public ResponseEntity<Usuario> init() {
+	@GetMapping(value = "/{id}", produces = "application/json")
+	public ResponseEntity<Usuario> init(@PathVariable(value = "id")Long id) {
 		
-		//PASSANDO VALORES PARA A MODEL USUARIO
-		Usuario usuario = new Usuario();
-		usuario.setId(3L);
-		usuario.setNome("anailson");
-		usuario.setLogin("teste@gmail.com");
-		usuario.setSenha("ffsfsf");
+	   Optional<Usuario> usuario = usuarioRepository.findById(id);
+	   
+	   return new ResponseEntity(usuario.get(), HttpStatus.OK);
 		
-		Usuario usuario2 = new Usuario();
-		usuario2.setId(10L);
-		usuario2.setNome("teste");
-		usuario2.setLogin("javaspring@gmail.com");
-		usuario2.setSenha("4510cssd");
-		
-		//RETORNANDO EM UMA LISTA DE USUARIOS
-		List<Usuario> usuarios = new  ArrayList<Usuario>();
-		usuarios.add(usuario);
-		usuarios.add(usuario2);
-		
-		
-		return new ResponseEntity(usuarios, HttpStatus.OK);
-
 	}
+	/*LISTANDO TODOS OS IDs*/
+	@GetMapping(value = "/", produces = "application/json")
+	public ResponseEntity<List<Usuario>> usuario(){
+		
+		 List<Usuario> list = (List<Usuario>) usuarioRepository.findAll();
+		 
+		 return new ResponseEntity<List<Usuario>>(list, HttpStatus.OK);
+	}
+	
 
 }
