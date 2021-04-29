@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.ForeignKey;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Telefone implements Serializable {
 
@@ -22,6 +24,7 @@ public class Telefone implements Serializable {
 	
 	private String numero;
 	
+	@JsonIgnore  //PARA EVITAR A RECURSIVIDADE
 	@ForeignKey(name = "usuario_id")
 	@ManyToOne    //MUITOS TELEFONES PARA 1 USUÁRIO
 	private Usuario usuario;
