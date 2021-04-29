@@ -1,6 +1,5 @@
 package sistema.api.rest.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,12 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import sistema.api.rest.model.Usuario;
 import sistema.api.rest.repository.UsuarioRepository;
+
+/*
+ * SERVICE RESPONSÁVEL POR CHAMAR O REPOSITORY PARA FAZER AS OPERAÇÕES.
+ * CONTROLLER É A CAMADA RESPONSAVEL TANTO POR RECEBER REQUISIÇÕES COMO POR ENVIAR A RESPOSTA AO USUÁRIO.
+ * */
 
 @RestController
 @RequestMapping(value = "/usuario")
