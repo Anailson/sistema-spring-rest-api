@@ -48,9 +48,13 @@ public class IndexController {
 		 return new ResponseEntity<List<Usuario>>(list, HttpStatus.OK);
 	}
 	
-	/*SALVANDO REGISTROS PELO POSTMAN*/
+	/*SALVANDO REGISTROS PELO POSTMAN USUARIO E TELEFONES*/
 	@PostMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> cadastrar (@RequestBody Usuario usuario){
+		
+		for (int pos = 0; pos < usuario.getTelefones().size(); pos++) {
+			usuario.getTelefones().get(pos).setUsuario(usuario);
+		}
 		
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 		

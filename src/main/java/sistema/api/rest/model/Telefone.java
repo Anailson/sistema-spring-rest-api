@@ -26,7 +26,7 @@ public class Telefone implements Serializable {
 	
 	@JsonIgnore  //PARA EVITAR A RECURSIVIDADE
 	@ForeignKey(name = "usuario_id")
-	@ManyToOne    //MUITOS TELEFONES PARA 1 USUÁRIO
+	@ManyToOne(optional = false)   //MUITOS TELEFONES PARA 1 USUÁRIO - optinal false obrigada ter pai(usuario), antes de salvar filho(telefone)
 	private Usuario usuario;
 	
 	
