@@ -1,5 +1,6 @@
 package sistema.api.rest.security;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServlet;
@@ -34,7 +35,7 @@ public class JWTTokenAutenticacaoService {
 	private static final String HEADER_STRING = "Authorization";
 
 	// GERANDO TOKEN DE AUTENTICAÇÃO E ADICIONANDO AO CABEÇALHO A RESPOSTA HTTP
-	public void addAuthentication(HttpServletResponse response, String username) throws Exception {
+	public void addAuthentication(HttpServletResponse response, String username) throws IOException {
 
 		// MONTAGEM DO TOKEN
 		String JWT = Jwts.builder()// chamar o gerador de token
