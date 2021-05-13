@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +21,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /*
  * MODEL- UM DOMAIN COM INFORMAÇÕES DE UMA ENTIDADE, CLASSE CONTENDO UM OU MAIS CONSTRUTORES,
@@ -39,6 +42,7 @@ public class Usuario implements UserDetails {
 
 	private String nome;
 
+	@Column(unique = true)//Evitando duplicar mesmo usuário com o mesmo login
 	private String login;
 
 	private String senha;
@@ -137,40 +141,40 @@ public class Usuario implements UserDetails {
 	}
 	
 	//SÃO OS ACESSOS DO USUARIO ROLE_ADMIN ETC
-
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles; //RETORNANDO OS ROLES PAPEIS NO SISTEMA
 	}
-
+	@JsonIgnore
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
 		return this.senha;
 	}
-
+	@JsonIgnore
 	@Override
 	public String getUsername() {
 		return this.login;
 	}
-
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
-
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-
+	@JsonIgnore
 	@Override
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-
+	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
