@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.catalina.core.ApplicationContext;
@@ -44,10 +45,10 @@ public class JWTTokenAutenticacaoService {
 				.signWith(SignatureAlgorithm.HS512, SECRET).compact();// compactaão e algoritmo de geração de senha
 
 		// JUNtA O TOKNE COM O PREFIXO
-		String token = TOKEN_PREFIX + "" + JWT; // bearer - ex: formando o token fafsfsfsdfsdfsd
+		String token = TOKEN_PREFIX + " " + JWT; // bearer - ex: formando o token fafsfsfsdfsdfsd
 
 		// ADICIONA NO CABEÇALHO HTTP
-		response.addHeader(HEADER_STRING, JWT);// authorization: Bearer fsafsdfsdf
+		response.addHeader(HEADER_STRING, token);// authorization: Bearer fsafsdfsdf
 
 		// ESCREVE TOKEN COM RESPOSTA NO CORPO DO HTTP
 		response.getWriter().write("{\"Authorization\":\"" + token + "\"}");
@@ -56,7 +57,7 @@ public class JWTTokenAutenticacaoService {
 
 	// RETORNA O USUÁRIO VALIDADO COM O TOKEN OU CASO NÃO SEJA VALIDO RETORNA NULL
 
-	public Authentication getAuthentication(HttpServletResponse request) {
+	public Authentication getAuthentication(HttpServletRequest request) {
 
 		// pega o token enviado no cabeçalho http
 		String token = request.getHeader(HEADER_STRING);

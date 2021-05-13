@@ -140,7 +140,7 @@ public class Usuario implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return roles; //RETORNANDO OS ROLES PAPEIS NO SISTEMA
 	}
 
 	@Override

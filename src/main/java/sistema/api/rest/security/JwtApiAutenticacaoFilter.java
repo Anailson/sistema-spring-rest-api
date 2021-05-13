@@ -6,6 +6,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
@@ -22,10 +23,13 @@ public class JwtApiAutenticacaoFilter extends GenericFilterBean {
 		// Estabelece a autenticação para a requisição
 
 		Authentication authentication = new JWTTokenAutenticacaoService()
-				.getAuthentication((HttpServletResponse) request);
+				.getAuthentication((HttpServletRequest) request);
 		
 		//coloca o processo de autenticação no spring security
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		//continua o processo
+		chain.doFilter(request, response);  //erro sistema.api.rest.security.JwtApiAutenticacaoFilter.doFilter(JwtApiAutenticacaoFilter.java:25)
 	}
 
 }

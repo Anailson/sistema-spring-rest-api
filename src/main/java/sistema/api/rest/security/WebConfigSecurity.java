@@ -28,7 +28,7 @@ public class WebConfigSecurity  extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		//ATIVANDO A PROTAÇÃO CONTRA USUARIO QUE NÃO ESTÃO VALIDADOS POR TOKEN
-		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())//verificar ser esta no codigo
 		
 		//ATIVANDO A PERMISSÃO DE ACESSO PAGINA INICIAL EX: SISTEMA.COM.BR/INDEX
 		.disable().authorizeRequests().antMatchers("/").permitAll()

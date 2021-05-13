@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +24,7 @@ import sistema.api.rest.repository.UsuarioRepository;
  * SERVICE RESPONSÁVEL POR CHAMAR O REPOSITORY PARA FAZER AS OPERAÇÕES.
  * CONTROLLER É A CAMADA RESPONSAVEL TANTO POR RECEBER REQUISIÇÕES COMO POR ENVIAR A RESPOSTA AO USUÁRIO.
  * */
-
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/usuario")
 public class IndexController {
@@ -55,6 +57,10 @@ public class IndexController {
 		for (int pos = 0; pos < usuario.getTelefones().size(); pos++) {
 			usuario.getTelefones().get(pos).setUsuario(usuario);
 		}
+		//CRIPTOGRANDO A SENHA DOS USUÁRIOS A SER CADASTRADOS
+		String senhaCriptograda = new BCryptPasswordEncoder().encode(usuario.getSenha());
+		usuario.setSenha(senhaCriptograda);
+		
 		
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 		
