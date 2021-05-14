@@ -63,10 +63,13 @@ public class JWTTokenAutenticacaoService {
 		String token = request.getHeader(HEADER_STRING);
 
 		if (token != null) { //ser não entra em nulll entra na codição
+			
+			//TER UM TOKE LMPO SEM ESPAÇOS EXEMPLO: Bearer eyJhbGciOiJIUzUxMiJ9
+			String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();//trim limpar espaços
 
 			// faz a validação do tokne do usuário na requisição
 			String user = Jwts.parser().setSigningKey(SECRET)// Bear asfsfsdfds
-					.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))// asfsfsdfds
+					.parseClaimsJws(tokenLimpo)// asfsfsdfds
 					.getBody().getSubject();// exemplo : usuario: anailson
 
 			if (user != null) {
@@ -74,11 +77,17 @@ public class JWTTokenAutenticacaoService {
 				Usuario usuario = ApplicationContextLoad.getApplicationContext().getBean(UsuarioRepository.class)
 						.findUserByLogin(user);
 
-				if (user != null) {
-
+				if (usuario != null) {
+					
+					//SER O TOKEN FOI IGUAL DO BANCO DE DADOS É VALIDO - PASSA A VALIDAÇÃO O ACESSO LIBERADO
+					if(tokenLimpo.equalsIgnoreCase(usuario.getToken())) {
+						
 					// PADRÃO DA DOCUMENTAÇÃO DO SPRING
-					return new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
+					return new UsernamePasswordAuthenticationToken(
+							usuario.getLogin(), 
+							usuario.getSenha(),
 							usuario.getAuthorities());
+					}
 
 				}
 			}

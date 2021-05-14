@@ -74,7 +74,28 @@ public class Usuario implements UserDetails {
 			value = ConstraintMode.CONSTRAINT)))
 	private List<Role> roles; //OS PAPEIS OU ACESSOS
 	
+	//ATRIBUTO PARA AUTENTICAÇÃO DO TOKEN NO BANCO
+	private String token = "";
 	
+	
+	
+	
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public List<Telefone> getTelefones() {
 		return telefones;
 	}
