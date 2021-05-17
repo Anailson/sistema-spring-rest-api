@@ -49,8 +49,9 @@ public class JWTTokenAutenticacaoService {
 
 		// ADICIONA NO CABEÇALHO HTTP
 		response.addHeader(HEADER_STRING, token);// authorization: Bearer fsafsdfsdf
-		
-		//liberando resposta para as portas diferentes que usam API ou Caso clientes web: exemplo: porta 8080 e porta 4900
+
+		// liberando resposta para as portas diferentes que usam API ou Caso clientes
+		// web: exemplo: porta 8080 e porta 4900
 		liberacaoCors(response);
 
 		// ESCREVE TOKEN COM RESPOSTA NO CORPO DO HTTP
@@ -65,6 +66,7 @@ public class JWTTokenAutenticacaoService {
 		// pega o token enviado no cabeçalho http
 		String token = request.getHeader(HEADER_STRING);
 
+	 try { //capturando exceção do token expirado
 		if (token != null) { //ser não entra em nulll entra na codição
 			
 			//TER UM TOKE LMPO SEM ESPAÇOS EXEMPLO: Bearer eyJhbGciOiJIUzUxMiJ9
@@ -75,6 +77,7 @@ public class JWTTokenAutenticacaoService {
 					.parseClaimsJws(tokenLimpo)// asfsfsdfds
 					.getBody().getSubject();// exemplo : usuario: anailson
 
+	
 			if (user != null) {
 
 				Usuario usuario = ApplicationContextLoad.getApplicationContext().getBean(UsuarioRepository.class)
@@ -94,31 +97,35 @@ public class JWTTokenAutenticacaoService {
 
 				}
 			}
-
-		}
+			
+		}// fim da codição token != null
+	 }catch (io.jsonwebtoken.ExpiredJwtException e) {
+		try {
+			response.getOutputStream().println("Seu TOKEN está expirado, faça o login ou informe umn novo token para autenticação");
+		}catch (IOException el) {}
+	}
 		//LIBERACAO CORS
 		liberacaoCors(response);
 		
 		return null;// não autorizado
 	}
 
-	//liberação do cors metodo criado apos a liberacaoCors
+	// liberação do cors metodo criado apos a liberacaoCors
 	private void liberacaoCors(HttpServletResponse response) {
 
 		if (response.getHeader("Access-Control-Allow-Origin") == null) {
-			response.addHeader("Access-Control-Allow-Origin","*");
+			response.addHeader("Access-Control-Allow-Origin", "*");
 		}
 		if (response.getHeader("Access-Control-Allow-Origin") == null) {
-			response.addHeader("Access-Control-Allow-Origin","*");
+			response.addHeader("Access-Control-Allow-Origin", "*");
 		}
 		if (response.getHeader("Access-Control-Allow-Origin") == null) {
-			response.addHeader("Access-Control-Allow-Origin","*");
+			response.addHeader("Access-Control-Allow-Origin", "*");
 		}
 		if (response.getHeader("Access-Control-Allow-Origin") == null) {
-			response.addHeader("Access-Control-Allow-Origin","*");
+			response.addHeader("Access-Control-Allow-Origin", "*");
 		}
-			
-		
+
 	}
 
 }
