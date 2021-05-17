@@ -34,8 +34,10 @@ public class WebConfigSecurity  extends WebSecurityConfigurerAdapter{
 		.disable().authorizeRequests().antMatchers("/").permitAll()
 		.antMatchers("/index").permitAll()//PERMITE TODOS ACESSO
 		
-		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll() 
+		//permite varios tipos de uso no HTTP com portas e servidores diferentes
+		.antMatchers(HttpMethod.OPTIONS,  "/**").permitAll()
 		
+			
 		//URL DE LOGOUT - REDIRECIONAR APOS O USER DESLOGAR DO SISTEMA
 		.anyRequest().authenticated().and().logout().logoutSuccessUrl("/index")
 		

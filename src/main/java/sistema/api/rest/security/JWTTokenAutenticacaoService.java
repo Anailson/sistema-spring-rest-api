@@ -49,6 +49,9 @@ public class JWTTokenAutenticacaoService {
 
 		// ADICIONA NO CABEÇALHO HTTP
 		response.addHeader(HEADER_STRING, token);// authorization: Bearer fsafsdfsdf
+		
+		//liberando resposta para as portas diferentes que usam API ou Caso clientes web: exemplo: porta 8080 e porta 4900
+		liberacaoCors(response);
 
 		// ESCREVE TOKEN COM RESPOSTA NO CORPO DO HTTP
 		response.getWriter().write("{\"Authorization\":\"" + token + "\"}");
@@ -57,7 +60,7 @@ public class JWTTokenAutenticacaoService {
 
 	// RETORNA O USUÁRIO VALIDADO COM O TOKEN OU CASO NÃO SEJA VALIDO RETORNA NULL
 
-	public Authentication getAuthentication(HttpServletRequest request) {
+	public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
 
 		// pega o token enviado no cabeçalho http
 		String token = request.getHeader(HEADER_STRING);
@@ -93,8 +96,29 @@ public class JWTTokenAutenticacaoService {
 			}
 
 		}
-
+		//LIBERACAO CORS
+		liberacaoCors(response);
+		
 		return null;// não autorizado
+	}
+
+	//liberação do cors metodo criado apos a liberacaoCors
+	private void liberacaoCors(HttpServletResponse response) {
+
+		if (response.getHeader("Access-Control-Allow-Origin") == null) {
+			response.addHeader("Access-Control-Allow-Origin","*");
+		}
+		if (response.getHeader("Access-Control-Allow-Origin") == null) {
+			response.addHeader("Access-Control-Allow-Origin","*");
+		}
+		if (response.getHeader("Access-Control-Allow-Origin") == null) {
+			response.addHeader("Access-Control-Allow-Origin","*");
+		}
+		if (response.getHeader("Access-Control-Allow-Origin") == null) {
+			response.addHeader("Access-Control-Allow-Origin","*");
+		}
+			
+		
 	}
 
 }
